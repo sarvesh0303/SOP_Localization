@@ -15,11 +15,13 @@ void PointStore::print_points(int count) {
 void detection_callback(const sensor_msgs::LaserScan::ConstPtr& msg) {
   const vector<float> input = msg->ranges;
   PointStore::_points.clear();
-  for (int i = 0, j = msg->angle_min; i < input.size(); i++, j+= msg->angle_increment) {
+  double j = msg->angle_min;
+  for (int i = 0; i < input.size(); i++) {
     if (input[i] > msg->range_max)
       ;
     else
       PointStore::_points.push_back(std::make_pair(input[i],j));
+    j+=msg->angle_increment;
   }
   PointStore::print_points(2);
 }
