@@ -2,7 +2,7 @@
 
 using namespace std;
 
-double calc_threshold(vector<point>,line) {
+double iepf_threshold(vector<point>,line) {
 	return 0.2;
 }
 
@@ -11,7 +11,7 @@ vector<line> iterative_end_point_fit(vector<point> Points) {
 	point a = Points.front(); point b = Points.back();
 	line l = line_fit(a,b);
 	breakpoint d = maximum_dist(Points,l);
-	double d_thres = calc_threshold(Points,l);
+	double d_thres = iepf_threshold(Points,l);
 	if (d.value < d_thres)
 		result.push_back(l);
 	else {
