@@ -4,6 +4,7 @@
 #include <vector>
 #include <utility>
 #include <cmath>
+#include <string>
 
 using namespace std;
 
@@ -12,15 +13,13 @@ struct point {
   double theta;
   double x;
   double y;
-}
-typedef point breakpoint;
+};
 
 void sequence_points(vector<point> unsorted);
-vector<int> adaptive_detection(vector<point> sorted);
-vector<vector<point>> adaptive_result(vector<point>);
+vector<int> adaptive_detection(vector<point> sorted,double,double);
+vector<vector<point>> adaptive_result(vector<point>,double,double);
 bool comparison_func(point a, point b);
 double calc_distance(point a, point b);
-double iepf_threshold(point a, point b);
 
 struct line {
 	double m;
@@ -39,13 +38,11 @@ struct line_alt {
 	double theta;
 };
 
-vector<line> iterative_end_point_fit(vector<point> Points);
+vector<line> iterative_end_point_fit(vector<point> Points,double);
 double calc_distance(point p, line l);
 breakpoint maximum_dist(vector<point> Points, line L);
 line line_fit(point a, point b);
-double DIST_THRESHOLD;
-double SLOPE_THRESHOLD;
-double abd_threshold(point,point);
-vector<line> merge(vector<line> raw);
+double abd_threshold(point,point,double,double);
+vector<line> merge(vector<line> raw,double,double);
 
-vector<point> parse_input(char* filename);
+vector<point> parse_input(string filename);

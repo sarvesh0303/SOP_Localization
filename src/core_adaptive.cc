@@ -1,5 +1,4 @@
-#include "../libs/defs.h"
-
+#include "../lib/defs.h"
 using namespace std;
 
 bool comparison_func(point a, point b) {
@@ -10,13 +9,13 @@ void sequence_points(vector<point> unsorted) {
   std::sort(unsorted.begin(),unsorted.end(),comparison_func);
 }
 
-vector<vector<point>> adaptive_result(vector<point> sorted) {
-  vector<int> breaks = adaptive_detection(sorted);
+vector<vector<point>> adaptive_result(vector<point> sorted,double c0,double c1) {
+  vector<int> breaks = adaptive_detection(sorted,c0,c1);
   vector<vector<point>> result; vector<point> sub_result;
   int j = 0;
   for (int i = 0; i < sorted.size(); i++) {
     sub_result.push_back(sorted[i]);
-    if (i == breaks[j]) {
+    if ((j < breaks.size()) && (i == breaks[j])) {
       result.push_back(sub_result);
       sub_result.clear();
       j++;
@@ -26,14 +25,19 @@ vector<vector<point>> adaptive_result(vector<point> sorted) {
   return result;
 }
 
-vector<int> adaptive_detection(vector<point> sorted) {
-  vector<point> result;
+double abd_threshold(point p1, point p2,double c0, double c1) {
+  return c0 + c1*abs(p2.r-p1.r)/abs(p2.r+p1.r);
+}
+
+vector<int> adaptive_detection(vector<point> sorted,double c0,double c1) {
+  vector<int> result;
   for (int i = 0; i < sorted.size()-1; i++) {
-    if (calc_distance(sorted[i],sorted[i+1]) > abd_threshold(sorted[i],sorted[i+1]))
+    if (calc_distance(sorted[i],sorted[i+1]) > abd_threshold(sorted[i],sorted[i+1],c0,c1))
       result.push_back(i);
   }
   return result;
 }
+
 
 double calc_distance(point a, point b) {
   return pow(pow(a.x-b.x,2)+pow(a.y-b.y,2),0.5);

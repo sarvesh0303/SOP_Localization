@@ -2,24 +2,25 @@
 
 using namespace std;
 
-double iepf_threshold(vector<point>,line) {
-	return 0.2;
-}
-
-vector<line> iterative_end_point_fit(vector<point> Points) {
+vector<line> iterative_end_point_fit(vector<point> Points,double iepf_threshold) {
 	vector<line> result; int j;
+	if (Points.size()<2)
+		return result;
 	point a = Points.front(); point b = Points.back();
 	line l = line_fit(a,b);
 	breakpoint d = maximum_dist(Points,l);
-	double d_thres = iepf_threshold(Points,l);
-	if (d.value < d_thres)
+	double d_thres = iepf_threshold;
+	if (d.value <= d_thres) {
+		cout << d.value;
 		result.push_back(l);
+	}
 	else {
 		int i = d.point_iter;
-		result = iterative_end_point_fit(vector<point>(Points.begin(),Points.begin()+i));
-		vector<line> to_append = iterative_end_point_fit(vector<point>(Points.begin()+i,Points.end()));
+		result = iterative_end_point_fit(vector<point>(Points.begin(),Points.begin()+i),iepf_threshold);
+		vector<line> to_append = iterative_end_point_fit(vector<point>(Points.begin()+i,Points.end()),iepf_threshold);
 		result.insert(result.end(),to_append.begin(),to_append.end());
 	}
+	cout << result.size() << '\t' << result[0].m << '\t' << result[0].c << '\n';
 	return result;
 }
 
@@ -49,9 +50,4 @@ line line_fit(point a, point b) {
 	l.c = b.y - l.m*b.x;
 	l.ends = make_pair(a,b);
 	return l;
-}
-
-main() {
-	cout<<"this works, for now"<<endl;
-	return 0;
 }

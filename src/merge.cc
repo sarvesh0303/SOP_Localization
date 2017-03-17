@@ -1,10 +1,15 @@
 #include "../lib/defs.h"
 using namespace std;
 
-vector<line> merge(vector<line> raw) {
+vector<line> merge(vector<line> raw,double slope, double dist) {
   vector<line> result;
-  for (int i = 0; i < raw.size(); i++) {
-    if ((abs(a.m - b.m) < SLOPE_THRESHOLD)&&(calc_distance(a.ends.second,b.ends.first)<DIST_THRESHOLD))
+  if (raw.size()<2) {
+    return raw;
+  }
+  for (int i = 0; i < raw.size()-1; i++) {
+    line a = raw[i];
+    line b = raw[i+1];
+    if ((abs(a.m - b.m) < slope)&&(calc_distance(a.ends.second,b.ends.first)<dist))
         result.push_back(line_fit(a.ends.first,b.ends.second));
     else {
         result.push_back(a);
