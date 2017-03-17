@@ -18,7 +18,7 @@ vector<point> parse_input(string filename) {
   while(1) {
     if (feof(fp))
       break;
-    fscanf(fp,"%lf, %lf\n",&theta,&r);
+    fscanf(fp,"%lf, %lf\n",&r,&theta);
     result.push_back(make_point(r,theta));
   }
   return result;

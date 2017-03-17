@@ -42,7 +42,7 @@ void final_plot() {
 void on_abd(int,void*) {
   post_abd.clear(); post_iepf.clear();
   abd_c0 = s1/50.0;  abd_c1 = s2;
-  iepf_th = s3/20;  merge_slope = s4/50;  merge_dist = s5/50;
+  iepf_th = s3/20.0;  merge_slope = s4/50.0;  merge_dist = s5/50.0;
   do_abd(abd_c0,abd_c1);
   do_iepf(iepf_th,merge_slope,merge_dist);
   final_plot();
@@ -51,7 +51,7 @@ void on_abd(int,void*) {
 void on_iepf(int,void*) {
   // cv::destroyWindow("Window");
   post_iepf.clear();
-  iepf_th = s3/20; merge_slope = s4/50; merge_dist = s5/50;
+  iepf_th = s3/2000.0; merge_slope = s4/50.0; merge_dist = s5/500.0;
   do_iepf(iepf_th,merge_slope,merge_dist);
   final_plot();
 }
@@ -72,7 +72,7 @@ int main() {
   cv::namedWindow("Parameters",1);
   // cv::createTrackbar("abd_c0","Parameters",&s1,50,on_abd);//0-1:50
   // cv::createTrackbar("abd_c1","Parameters",&s2,50,on_abd);//0-50
-  cv::createTrackbar("iepf_th","Parameters",&s3,20,on_iepf);
+  cv::createTrackbar("iepf_th","Parameters",&s3,200,on_iepf);
   cv::createTrackbar("merge_slope","Parameters",&s4,50,on_iepf);
   cv::createTrackbar("merge_dist","Parameters",&s5,50,on_iepf);
   cv::waitKey(0);
