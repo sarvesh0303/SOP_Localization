@@ -28,12 +28,12 @@ void do_iepf(double iepf_thres,double m_slope,double m_dist) {
 
 void final_plot() {
   image = cv::Mat::zeros(WIN_SIZE_X,WIN_SIZE_Y,CV_8UC3);
+  cv::circle(image,cv::Point(XSHIFT,YSHIFT),2,cv::Scalar(255,100,100));
   for (vector<point>::iterator it = input_list.begin();it!=input_list.end();it++) {
     cv::circle(image,cv::Point(it->x*XSCALE+XSHIFT,it->y*YSCALE+YSHIFT),2,cv::Scalar(100,100,255));
   }
   for (vector<line>::iterator it = post_iepf.begin(); it != post_iepf.end(); it++) {
     point p1 = it->ends.first; point p2 = it->ends.second;
-    cout << p1.x << '\t' <<p1.y << '\t'<<p2.x<<'\t'<<p2.y<<endl;
     cv::line(image,cv::Point(p1.x*XSCALE+XSHIFT,p1.y*YSCALE+YSHIFT),cv::Point(p2.x*XSCALE+XSHIFT,p2.y*YSCALE+YSHIFT),cv::Scalar(100,255,100));
   }
   cv::imshow("Window",image);
@@ -66,7 +66,7 @@ int main() {
   cout << input_list.size() <<endl;
   do_abd(abd_c0,abd_c1);
   cout << post_abd.size() << endl;
-  do_iepf(iepf_th,merge_slope,merge_dist);
+  // do_iepf(iepf_th,merge_slope,merge_dist);
   cout << post_iepf.size() << endl;
   final_plot();
   cv::namedWindow("Parameters",1);

@@ -4,23 +4,25 @@ using namespace std;
 
 vector<line> iterative_end_point_fit(vector<point> Points,double iepf_threshold) {
 	vector<line> result; int j;
-	if (Points.size()<2)
+	if (Points.size()==0)
 		return result;
+	else if (Points.size()==1) {
+		result.push_back(line_fit(Points[0],Points[0]));
+		return result;
+	}
 	point a = Points.front(); point b = Points.back();
 	line l = line_fit(a,b);
 	breakpoint d = maximum_dist(Points,l);
 	double d_thres = iepf_threshold;
 	if (d.value <= d_thres) {
-		cout << d.value;
 		result.push_back(l);
 	}
 	else {
 		int i = d.point_iter;
-		result = iterative_end_point_fit(vector<point>(Points.begin(),Points.begin()+i),iepf_threshold);
+		result = iterative_end_point_fit(vector<point>(Points.begin(),Points.begin()+i+1),iepf_threshold);
 		vector<line> to_append = iterative_end_point_fit(vector<point>(Points.begin()+i,Points.end()),iepf_threshold);
 		result.insert(result.end(),to_append.begin(),to_append.end());
 	}
-	cout << result.size() << '\t' << result[0].m << '\t' << result[0].c << '\n';
 	return result;
 }
 
@@ -46,8 +48,15 @@ double calc_distance(point p, line l) {
 
 line line_fit(point a, point b) {
 	line l;
-	l.m = (b.y - a.y)/(b.x - a.x);
-	l.c = b.y - l.m*b.x;
-	l.ends = make_pair(a,b);
+	if (abs(a.theta-b.theta) > 0.000000001) {
+		l.m = (b.y - a.y)/(b.x - a.x);
+		l.c = b.y - l.m*b.x;
+		l.ends = make_pair(a,b);
+	}
+	else {
+		l.m = 0;
+		l.c = a.y;
+		l.ends = make_pair(a,a);
+	}
 	return l;
 }
