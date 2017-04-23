@@ -1,12 +1,16 @@
 #include "../lib/defs.h"
+
 using namespace std;
+using namespace Common;
+
+namespace Adaptive {
 
 bool comparison_func(point a, point b) {
   return (a.theta < b.theta);
 }
 
 void sequence_points(vector<point> unsorted) {
-  std::sort(unsorted.begin(),unsorted.end(),comparison_func);
+  Load::sequence_points(unsorted);
 }
 
 vector<vector<point>> adaptive_result(vector<point> sorted,double c0,double c1) {
@@ -41,4 +45,6 @@ vector<int> adaptive_detection(vector<point> sorted,double c0,double c1) {
 
 double calc_distance(point a, point b) {
   return pow(pow(a.x-b.x,2)+pow(a.y-b.y,2),0.5);
+}
+
 }

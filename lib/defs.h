@@ -15,12 +15,35 @@ struct point {
   double y;
 };
 
-void sequence_points(vector<point> unsorted);
-vector<int> adaptive_detection(vector<point> sorted,double,double);
-vector<vector<point>> adaptive_result(vector<point>,double,double);
-bool comparison_func(point a, point b);
-double calc_distance(point a, point b);
+namespace IEPF {
+	vector<line> iterative_end_point_fit(vector<point>, double iepf_threshold);
+	double calc_distance(point, line);
+	line line_fit(point, point);
+	breakpoint maximum_dist(vector<point>, line);
+};
 
+namespace Merge {
+	vector<line> merge(vector<line>,double,double);
+	line line_fit(point,point);
+};
+
+namespace Adaptive {
+	bool comparison_func(point,point);
+	void sequence_points(vector<point>);
+	vector<vector<point>> adaptive_result(vector<point>,double c0, double c1);
+	double abd_threshold(point,point,double c0,double c1);
+	vector<int> adaptive_detection(vector<point>,double,double);
+	double calc_distance(point,point);
+};
+
+namespace Load {
+	void sequence_points(vector<point>);
+	vector<point> parse_input(string filename);
+	point make_point(double r, double theta);
+};
+
+
+namespace Common {
 struct line {
 	double m;
 	double c;
@@ -37,12 +60,4 @@ struct line_alt {
 	double d;
 	double theta;
 };
-
-vector<line> iterative_end_point_fit(vector<point> Points,double);
-double calc_distance(point p, line l);
-breakpoint maximum_dist(vector<point> Points, line L);
-line line_fit(point a, point b);
-double abd_threshold(point,point,double,double);
-vector<line> merge(vector<line> raw,double,double);
-
-vector<point> parse_input(string filename);
+};

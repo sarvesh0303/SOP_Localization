@@ -1,6 +1,9 @@
 #include "../lib/defs.h"
 
 using namespace std;
+using namespace Common;
+
+namespace IEPF {
 
 vector<line> iterative_end_point_fit(vector<point> Points,double iepf_threshold) {
 	vector<line> result; int j;
@@ -59,4 +62,5 @@ line line_fit(point a, point b) {
 		l.ends = make_pair(a,a);
 	}
 	return l;
+}
 }

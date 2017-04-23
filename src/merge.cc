@@ -1,5 +1,9 @@
 #include "../lib/defs.h"
+
 using namespace std;
+using namespace Common;
+
+namespace Merge {
 
 vector<line> merge(vector<line> raw,double slope, double dist) {
   vector<line> result;
@@ -17,4 +21,10 @@ vector<line> merge(vector<line> raw,double slope, double dist) {
     }
   }
   return result;
+}
+
+line line_fit(point a, point b) {
+  return IEPF::line_fit(a,b);
+}
+
 }
