@@ -8,6 +8,7 @@ Process::Process(char* file_name,double _c0, double _c1) {
     file_string = file_name;
     abd_c0 = _c0; abd_c1 = _c1;
     iepf_th = merge_slope = merge_dist = 0;
+    cout << file_string << endl;
 }
 
 void Process::get_input() {
@@ -38,13 +39,14 @@ void Process::final_plot() {
         cv::line(image,cv::Point(p1.x*XSCALE+XSHIFT,p1.y*YSCALE+YSHIFT),cv::Point(p2.x*XSCALE+XSHIFT,p2.y*YSCALE+YSHIFT),cv::Scalar(100,255,100));
     }
     cv::imshow("Window",image);
+    cv::waitKey(0);
 }
 
 void Process::generate_ui() {
     cv::namedWindow("Parameters",1);
-    cv::createTrackbar("iepf_th","Parameters",&s3,200,this->on_iepf);
-    cv::createTrackbar("merge_slope","Parameters",&s4,50,this->on_iepf);
-    cv::createTrackbar("merge_dist","Parameters",&s5,50,this->on_iepf);
+    cv::createTrackbar("iepf_th","Parameters",&s3,200,on_iepf,(void *) this);
+    cv::createTrackbar("merge_slope","Parameters",&s4,50,on_iepf,(void *) this);
+    cv::createTrackbar("merge_dist","Parameters",&s5,50,on_iepf,(void *) this);
     cv::waitKey(0);
 }
 
@@ -52,6 +54,19 @@ void Process::on_iepf(int,void*) {
     // post_iepf.clear();
     // iepf_th = s3/2000.0; merge_slope = s4/50.0; merge_dist = s5/50.0;
     // do_iepf(iepf_th,merge_slope,merge_dist);
+}
+
+void Process::print_output(string _outfile, string _jpgpath) {
+    FILE* fp = fopen(_outfile.c_str(),"w");
+    fprintf(fp,"The lines generated are: \n");
+    line temp; point start,end;
+    for (int i = 0; i < post_iepf.size(); i++) {
+        temp = post_iepf[i];
+        start = temp.ends.first;
+        end = temp.ends.second;
+        fprintf(fp,"Line %d: \n m = %lf, c = %lf\n a = (%lf,%lf), b = (%lf,%lf)\n",i,temp.m,temp.c,start.x,start.y,end.x,end.y);
+    }
+    cv::imwrite(_jpgpath,image);
 }
 
 Sarvesh_FE::Sarvesh_FE(char* file_name) {
@@ -80,6 +95,7 @@ void Sarvesh_FE::process_barebones() {
     cout << "Enter merge critical slope: " << endl;
     cin >> proc->merge_slope;
     proc->do_iepf(proc->iepf_th,proc->merge_dist,proc->merge_slope);
+    proc->final_plot();
 }
 
 void Sarvesh_FE::process_full() {
@@ -87,6 +103,13 @@ void Sarvesh_FE::process_full() {
     proc->generate_ui();
 }
 
-void Sarvesh_FE::print_output(string _outfile) {
-    ;
+void Sarvesh_FE::print_output(string _outfile,string _jpg) {
+    proc->print_output(_outfile,_jpg);
+}
+
+void on_iepf(int d,void* proc) {
+    Process* proc1 = (Process *) proc;
+    proc1->iepf_th = d;
+    cout << proc1->iepf_th << endl;
+    //Then use Sarvesh_FE->proc = proc1
 }

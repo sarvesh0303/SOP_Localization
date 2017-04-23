@@ -23,6 +23,7 @@ class Process {
         void generate_ui();
         static void on_iepf(int,void*);
         void on_abd(int,void*);
+        void print_output(string,string);
 };
 
 class Sarvesh_FE {
@@ -36,6 +37,8 @@ class Sarvesh_FE {
         void pre_processing();
         void process_barebones();
         void process_full();
-        void print_output(string _outfile);
+        void print_output(string,string);
 };
 
+
+void on_iepf(int, void* proc);

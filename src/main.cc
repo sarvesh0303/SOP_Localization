@@ -3,6 +3,7 @@
 #include "../lib/sarvesh_fe.h"
 
 using namespace std;
+
 // cv::Mat image;
 // vector<point> input_list;
 // vector<vector<point>> post_abd;
@@ -80,8 +81,12 @@ using namespace std;
 // }
 
 int main() {
-  Sarvesh_FE sam("/home/abc/sarvesh/points.txt");
+  char a[255]; 
+  strcpy(a,"/home/sarvesh/Github/SOP_Localization/points.txt");
+  Sarvesh_FE sam(a);
+  cout << "Checkpoint 1" << endl;
   sam.load_data();
+  cout << "Load point" << endl;
   sam.pre_processing();
-  sam.process_barebones();
+  sam.process_full();
 }
