@@ -3,6 +3,7 @@
 using namespace std;
 using namespace Common;
 
+
 Process::Process(char* file_name,double _c0, double _c1) {
     file_string = file_name;
     abd_c0 = _c0; abd_c1 = _c1;
@@ -41,20 +42,21 @@ void Process::final_plot() {
 
 void Process::generate_ui() {
     cv::namedWindow("Parameters",1);
-    cv::createTrackbar("iepf_th","Parameters",&s3,200,on_iepf);
-    cv::createTrackbar("merge_slope","Parameters",&s4,50,on_iepf);
-    cv::createTrackbar("merge_dist","Parameters",&s5,50,on_iepf);
+    cv::createTrackbar("iepf_th","Parameters",&s3,200,this->on_iepf);
+    cv::createTrackbar("merge_slope","Parameters",&s4,50,this->on_iepf);
+    cv::createTrackbar("merge_dist","Parameters",&s5,50,this->on_iepf);
     cv::waitKey(0);
 }
 
 void Process::on_iepf(int,void*) {
-    post_iepf.clear();
-    iepf_th = s3/2000.0; merge_slope = s4/50.0; merge_dist = s5/50.0;
-    do_iepf(iepf_th,merge_slope,merge_dist);
+    // post_iepf.clear();
+    // iepf_th = s3/2000.0; merge_slope = s4/50.0; merge_dist = s5/50.0;
+    // do_iepf(iepf_th,merge_slope,merge_dist);
 }
 
 Sarvesh_FE::Sarvesh_FE(char* file_name) {
     file_string = file_name;
+    double abd_c0,abd_c1;
     cout << "Enter abd_c0:" << endl;
     cin >> abd_c0;
     cout << "Enter abd_c1:" << endl;
@@ -67,17 +69,17 @@ void Sarvesh_FE::load_data() {
 }
 
 void Sarvesh_FE::pre_processing() {
-    proc->do_abd(abd_c0,abd_c1);
+    proc->do_abd(proc->abd_c0,proc->abd_c1);
 }
 
 void Sarvesh_FE::process_barebones() {
     cout << "Enter iepf_threshold: " << endl;
-    cin >> iepf_th;
+    cin >> proc->iepf_th;
     cout << "Enter merge critical distance: " << endl;
-    cin >> merge_dist;
+    cin >> proc->merge_dist;
     cout << "Enter merge critical slope: " << endl;
-    cin >> merge_slope;
-    proc->do_iepf(iepf_th,merge_dist,merge_slope);
+    cin >> proc->merge_slope;
+    proc->do_iepf(proc->iepf_th,proc->merge_dist,proc->merge_slope);
 }
 
 void Sarvesh_FE::process_full() {

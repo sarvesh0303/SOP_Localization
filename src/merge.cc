@@ -27,4 +27,8 @@ line line_fit(point a, point b) {
   return IEPF::line_fit(a,b);
 }
 
+double calc_distance(point a,point b) {
+  return Adaptive::calc_distance(a,b);
+}
+
 }

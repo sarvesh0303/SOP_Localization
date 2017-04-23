@@ -1,7 +1,6 @@
 #include "../lib/defs.h"
 
 using namespace std;
-using namespace Common;
 
 namespace Load {
 
@@ -15,7 +14,7 @@ point make_point(double r,double theta) {
 }
 
 void sequence_points(vector<point> unsorted) {
-  std::sort(unsorted.begin(),unsorted.end(),comparison_func);
+  std::sort(unsorted.begin(),unsorted.end(),Adaptive::comparison_func);
 }
 
 vector<point> parse_input(string filename) {

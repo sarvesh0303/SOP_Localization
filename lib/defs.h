@@ -6,6 +6,9 @@
 #include <cmath>
 #include <string>
 
+#ifndef DEFS_H
+#define DEFS_H
+
 using namespace std;
 
 struct point {
@@ -13,6 +16,24 @@ struct point {
   double theta;
   double x;
   double y;
+};
+
+
+struct line {
+	double m;
+	double c;
+	pair<point,point> ends;
+};
+
+struct breakpoint {
+	int point_iter;
+	double value;
+};
+
+
+struct line_alt {
+	double d;
+	double theta;
 };
 
 namespace IEPF {
@@ -25,6 +46,7 @@ namespace IEPF {
 namespace Merge {
 	vector<line> merge(vector<line>,double,double);
 	line line_fit(point,point);
+	double calc_distance(point,point);
 };
 
 namespace Adaptive {
@@ -42,22 +64,8 @@ namespace Load {
 	point make_point(double r, double theta);
 };
 
-
 namespace Common {
-struct line {
-	double m;
-	double c;
-	pair<point,point> ends;
+
 };
 
-struct breakpoint {
-	int point_iter;
-	double value;
-};
-
-
-struct line_alt {
-	double d;
-	double theta;
-};
-};
+#endif
