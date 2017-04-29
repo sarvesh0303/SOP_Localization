@@ -2,6 +2,7 @@
 #include "sensor_msgs/LaserScan.h"
 #include "../include/storage.h"
 #include <cstdio>
+#include <iostream>
 
 using namespace std;
 int flag;
@@ -9,9 +10,10 @@ vector<pair<double,double> > PointStore::_points;
 char *file_name;
 
 void PointStore::print_points(int count,char* file_name) {
-  FILE* fp = fopen(file_name,"w");
-  for (int i = 0; i < PointStore::_points.size(); i++)
-    fprintf(fp,"%lf, %lf\n",PointStore::_points[i].first,PointStore::_points[i].second);
+	cout << "I read buffer size as: " << PointStore::_points.size() << endl;
+	FILE* fp = fopen(file_name,"w");
+	for (int i = 0; i < PointStore::_points.size(); i++)
+    fprintf(fp,"%lf, %lf\n",PointStore::_points[i].first,PointStore::_points[i].second);	
   fclose(fp);
 }
 
@@ -24,13 +26,14 @@ void detection_callback(const sensor_msgs::LaserScan::ConstPtr& msg) {
     cout << msg->angle_max<<endl;
     cout << (int) ((msg->angle_max - msg->angle_min)/msg->angle_increment) <<input.size()<< endl;
     for (int i = 0; i < input.size(); i++) {
-      if ((input[i] > msg->range_max)||(input[i] < 0))
+      if ((input[i] > msg->range_max)||(input[i] < msg->range_min))
 	     ;
       else {
         PointStore::_points.push_back(std::make_pair(input[i],j));
       }
       j+=msg->angle_increment;
-    }
+    };
+	cout << endl << input.size() << endl; 
     PointStore::print_points(511,file_name);
     cout << j<<'\t'<<"Finished\n";
   }
@@ -48,8 +51,9 @@ int main(int argc, char** argv) {
 
   if (argc<2) 
     printf("!!!WARNING: Expected file name!!!\n");
-  else
-    file_name = argv[1];
+  else 
+    // file_name = argv[1];
+    cout << argv[1] << endl;
 
   ros::NodeHandle n;
 

@@ -88,5 +88,5 @@ int main() {
   sam.load_data();
   cout << "Load point" << endl;
   sam.pre_processing();
-  sam.process_full();
+  sam.process_barebones();
 }
