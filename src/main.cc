@@ -82,11 +82,11 @@ using namespace std;
 
 int main() {
   char a[255]; 
-  strcpy(a,"/home/sarvesh/Github/SOP_Localization/points.txt");
+  strcpy(a,"/home/sarvesh/Github/SOP_Localization/sample_data/data9");
   Sarvesh_FE sam(a);
   cout << "Checkpoint 1" << endl;
   sam.load_data();
   cout << "Load point" << endl;
   sam.pre_processing();
-  sam.process_barebones();
+  sam.process_full();
 }

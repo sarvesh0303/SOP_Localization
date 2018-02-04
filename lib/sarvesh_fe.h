@@ -10,8 +10,8 @@ class Process {
         char* file_string;
         vector<point> input_list;
         vector<vector<point>> post_abd;
-        vector<line> post_iepf;
-        int s3,s4,s5;
+        public: vector<line> post_iepf;
+        // int s3,s4,s5;
     public:
         double abd_c0,abd_c1,iepf_th,merge_dist,merge_slope;
 

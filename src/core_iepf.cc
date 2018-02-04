@@ -10,13 +10,15 @@ vector<line> iterative_end_point_fit(vector<point> Points,double iepf_threshold)
 	if (Points.size()==0)
 		return result;
 	else if (Points.size()==1) {
-		result.push_back(line_fit(Points[0],Points[0]));
+		// result.push_back(line_fit(Points[0],Points[0]));
 		return result;
 	}
 	point a = Points.front(); point b = Points.back();
 	line l = line_fit(a,b);
 	breakpoint d = maximum_dist(Points,l);
 	double d_thres = iepf_threshold;
+	if (d_thres < 0.00001)
+		return result;
 	if (d.value <= d_thres) {
 		result.push_back(l);
 	}

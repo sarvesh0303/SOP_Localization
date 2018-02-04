@@ -4,5 +4,5 @@
 #define YSHIFT 700
 #define XSCALE 200
 #define YSCALE 200
-#define WIN_SIZE_X 1000
-#define WIN_SIZE_Y 1000
+#define WIN_SIZE_X 1500
+#define WIN_SIZE_Y 1500

@@ -18,19 +18,21 @@ vector<vector<point>> adaptive_result(vector<point> sorted,double c0,double c1) 
   vector<vector<point>> result; vector<point> sub_result;
   int j = 0;
   for (int i = 0; i < sorted.size(); i++) {
-    sub_result.push_back(sorted[i]);
     if ((j < breaks.size()) && (i == breaks[j])) {
       result.push_back(sub_result);
       sub_result.clear();
       j++;
     }
+    else
+      sub_result.push_back(sorted[i]);
   }
   result.push_back(sub_result);
   return result;
 }
 
 double abd_threshold(point p1, point p2,double c0, double c1) {
-  return c0 + c1*abs(p2.r-p1.r)/abs(p2.r+p1.r);
+  // return c0 + c1*abs(p2.r-p1.r)/abs(p2.r+p1.r);
+  return c0;
 }
 
 vector<int> adaptive_detection(vector<point> sorted,double c0,double c1) {

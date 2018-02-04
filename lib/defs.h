@@ -5,6 +5,7 @@
 #include <utility>
 #include <cmath>
 #include <string>
+#include <time.h>
 
 #ifndef DEFS_H
 #define DEFS_H
